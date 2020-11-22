@@ -26,4 +26,4 @@ stepsize = 1;
 obstacle = [10, 10, 20, 20];
 
 % Call function and recieve the 2D path
-[path] = RRTStar2D(xlim, ylim, start, goal, obstacle, stepsize, numNodes);
+[P] = RRTStar2D(xlim, ylim, start, goal, obstacle, stepsize, numNodes);
