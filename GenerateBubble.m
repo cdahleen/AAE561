@@ -16,7 +16,7 @@ elseif (distance <= ru) && (distance >= rl)
 elseif distance < rl
     %%this part needs to move the bubble away from obstace up to a certain
     %%amount
-    direction = -(P-obstacle2(ind));
+    direction = (P-obstacle2(ind));
     step = rl - distance;
     A = P + direction*step;
     r = rl;
