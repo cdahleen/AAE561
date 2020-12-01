@@ -98,7 +98,7 @@ for i = 2:length(P)-1
 %         continue
 %     end
     fprintf('Call Generate Bubble \n')
-    [A_temp,r_temp] = GenerateBubble3D(P(i,:),high_rho_obstacle);
+    [A_temp,r_temp] = GenerateBubble3D(P(i,:),high_rho_obstacle,obstacle);
     A(i,:) = A_temp;
     r(i) = r_temp;
 end
