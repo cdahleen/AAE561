@@ -1,6 +1,6 @@
 %% Steve Hannah
 % Main file to interface with 3D RRT Star Algorithm
-
+tic;
 % Main Script
 clear all
 close all
@@ -34,7 +34,7 @@ rho = 3;
 % Call function and recieve the 3D path
 [path, P] = RRTStar3D_ca(xlim, ylim, zlim, start, goal, obstacle, buffer, stepsize, numNodes, rho);
 savedir = [pwd '/figs/RRT.jpg'];
-saveas(figure(1),savedir)
+%saveas(figure(1),savedir)
 
 global rl ru
 %%start bubble algorithim by defining constants
@@ -81,7 +81,7 @@ patch([obstacle(1,2) obstacle(1,2) obstacle(1,2) obstacle(1,2)], ...
     [obstacle(2,2) obstacle(2,1) obstacle(2,1) obstacle(2,2)], ...
     [obstacle(3,1) obstacle(3,2) obstacle(3,2) obstacle(3,1)], 'blue')
 savedir = [pwd '/figs/Pre_Bubble.jpg'];
-saveas(figure(2),savedir)
+%saveas(figure(2),savedir)
 
 %%interpolate object for edge detection
 rho_obs = 4;
@@ -103,6 +103,9 @@ for i = 2:length(P)-1
     r(i) = r_temp;
 end
 
+% optimize path
+xstar = convex_opt3DCVX(A,A,r);
+
 %%plot after bubble algorithim
 [X,Y,Z] = sphere;
 
@@ -111,9 +114,13 @@ for n = 1:length(A)
     X1 = X*r(n);
     Y1 = Y*r(n);
     Z1 = Z*r(n);
-    surf(X1+A(n,1),Y1+A(n,2),Z1+A(n,3))
+    surf(X1+A(n,1),Y1+A(n,2),Z1+A(n,3),'FaceAlpha',0.1,'EdgeColor','none')
     hold on;
 end
+
+plot3(A(:,1),A(:,2),A(:,3),'--')
+plot3(xstar(1,:),xstar(2,:),xstar(3,:),'-*')
+
 patch([obstacle(1,1) obstacle(1,1) obstacle(1,2) obstacle(1,2)], ...
     [obstacle(2,1) obstacle(2,1) obstacle(2,1) obstacle(2,1)], ...
     [obstacle(3,1) obstacle(3,2) obstacle(3,2) obstacle(3,1)], 'blue')
@@ -133,4 +140,5 @@ patch([obstacle(1,2) obstacle(1,2) obstacle(1,2) obstacle(1,2)], ...
     [obstacle(2,2) obstacle(2,1) obstacle(2,1) obstacle(2,2)], ...
     [obstacle(3,1) obstacle(3,2) obstacle(3,2) obstacle(3,1)], 'blue')
 savedir = [pwd '/figs/Post_Bubble.jpg'];
-saveas(figure(3),savedir)
+%saveas(figure(3),savedir)
+toc;
