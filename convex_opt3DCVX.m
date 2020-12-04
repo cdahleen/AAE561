@@ -31,7 +31,7 @@ r = radii;
 % constraints (which are automatically generated but not accurate)
 x0 = p(:,2:(end-1));
 C = A(:,2:(end-1));
-R = radii(:,2:(end-1));
+R = radii(2:(end-1));
 n = length(x0);                 % number of points in path excluding ends
 x0 = x0(:);                     % transforms x0 from 3xn matrix to 3nx1 vector
 % We transform the matrix of points into a 3nx1 vector so that the
@@ -170,7 +170,7 @@ while(abs(fs) > stop)
         c = (a+b)/2;
         [xf,fs] = fstar(c,x,mu);
     end
-   if(a==b) % see header for bug notes
+   if(abs(a-b)<=stop*(1e-7)) % see header for bug notes
        break;
    end
 end
