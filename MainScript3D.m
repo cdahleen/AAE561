@@ -39,64 +39,23 @@ savedir = [pwd '/figs/RRT.jpg'];
 global rl ru
 %%start bubble algorithim by defining constants
 
-rl = 2;                   %%Max distance between adjacent points I.E rho
+rl = 2;                    %%Lower bound of sphere radius 
 ru = 5;                     %% upper bound of circular radius
-ro = 4;                     %%initialized bubble size;
 r = ones(length(P),1);
 
-r = r*ro;
 
-%%initialize bubbles 
+%%initialize bubble centers at points P
 A = P;     
-%%start center of bubbles at Points P
-[X,Y,Z] = sphere;
-X = X*ro;
-Y = Y*ro;
-Z = Z*ro;
-figure(2)
-for n = 1:length(P)
-    surf(X+A(n,1),Y+A(n,2),Z+A(n,3))
-    hold on;
-end
-
-%%plot interpolated trajectory and initialized bubbles
-plot3(P(:,1),P(:,2),P(:,3),'LineWidth',15)
-hold on;
-patch([obstacle(1,1) obstacle(1,1) obstacle(1,2) obstacle(1,2)], ...
-    [obstacle(2,1) obstacle(2,1) obstacle(2,1) obstacle(2,1)], ...
-    [obstacle(3,1) obstacle(3,2) obstacle(3,2) obstacle(3,1)], 'blue')
-patch([obstacle(1,1) obstacle(1,1) obstacle(1,2) obstacle(1,2)], ...
-    [obstacle(2,1) obstacle(2,2) obstacle(2,2) obstacle(2,1)], ...
-    [obstacle(3,2) obstacle(3,2) obstacle(3,2) obstacle(3,2)], 'blue')
-patch([obstacle(1,1) obstacle(1,1) obstacle(1,2) obstacle(1,2)], ...
-    [obstacle(2,2) obstacle(2,2) obstacle(2,2) obstacle(2,2)], ....
-    [obstacle(3,2) obstacle(3,1) obstacle(3,1) obstacle(3,2)], 'blue')
-patch([obstacle(1,1) obstacle(1,1) obstacle(1,2) obstacle(1,2)], ...
-    [obstacle(2,1) obstacle(2,2) obstacle(2,2) obstacle(2,1)], ...
-    [obstacle(3,1) obstacle(3,1) obstacle(3,1) obstacle(3,1)], 'blue')
-patch([obstacle(1,1) obstacle(1,1) obstacle(1,1) obstacle(1,1)], ...
-    [obstacle(2,1) obstacle(2,2) obstacle(2,2) obstacle(2,1)], ...
-    [obstacle(3,2) obstacle(3,1) obstacle(3,2) obstacle(3,1)], 'blue')
-patch([obstacle(1,2) obstacle(1,2) obstacle(1,2) obstacle(1,2)], ...
-    [obstacle(2,2) obstacle(2,1) obstacle(2,1) obstacle(2,2)], ...
-    [obstacle(3,1) obstacle(3,2) obstacle(3,2) obstacle(3,1)], 'blue')
-savedir = [pwd '/figs/Pre_Bubble.jpg'];
-%saveas(figure(2),savedir)
 
 %%interpolate object for edge detection
 rho_obs = 4;
 high_rho_obstacle = interp_obstacle(obstacle,rho_obs);
-clearvars A r
+
+%%initialize starting bubbles
 A(1,:) = P(1,:);
 r(1) = ru;
 %%refine bubbles
 for i = 2:length(P)-1
-%     if norm(P(i,:) - A(i-1,:)) < .5*r(i-1)
-%         fprintf('Dont Call generate Bubble \n')
-%         A(i,:) = A(i-1,:);
-%         r(i) = r(i-1);
-%         continue
-%     end
     fprintf('Call Generate Bubble \n')
     [A_temp,r_temp] = GenerateBubble3D(P(i,:),high_rho_obstacle,obstacle);
     A(i,:) = A_temp;
@@ -109,7 +68,7 @@ xstar = convex_opt3DCVX(A,A,r);
 %%plot after bubble algorithim
 [X,Y,Z] = sphere;
 
-figure(3)
+figure(2)
 for n = 1:length(A)
     X1 = X*r(n);
     Y1 = Y*r(n);
