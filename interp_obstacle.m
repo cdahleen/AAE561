@@ -1,9 +1,11 @@
 function vec = interp_obstacle(obstacle,rho)
-
+%%definne obstacle coordinates
 X = obstacle(1,:);
 Y = obstacle(2,:);
 Z = obstacle(3,:);
 vec = [];
+
+%%interpolate along each edge
 for z = Z
     for x = X
         yvec = linspace(Y(1),Y(2),rho)';
@@ -16,7 +18,7 @@ for z = Z
         vec = [vec;xvec];
     end
 end
-
+%%interpolate on vertical axis
 for x = X
     for y=Y
         zvec = linspace(Z(1),Z(2),rho)';
