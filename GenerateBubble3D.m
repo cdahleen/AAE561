@@ -6,20 +6,25 @@ global ru rl
 for i = 1:length(obstacle)
     distance(i) = norm(obstacle(i,:) - P);
 end
+
+%%find min distance to obstacle from point P
 [M,I] = min(distance);
-if M > ru
+
+
+if M > ru               %%if distance to obstacle is greater than max radius, r =  rmax 
     A_temp = P;
     r_temp = ru;
-elseif (M < ru) && (M > rl)
+elseif (M < ru) && (M > rl)  % if distance to obstacle is b/t max and min, set r as this difference
     r_temp = M;
     A_temp = P;
-elseif M < rl
+elseif M < rl           % if distance to obstacle is less than minuimum, translate P away from obstacle
 %     A_temp = P;
 %     r_temp = M;
     A_temp  = P + (rl-M)*norm(P - obstacle(I,:));
     r_temp = rl;
 end
-%%do cube calcs
+%%Perform a cube calculation to catch fringe cases of obstacle overlap with
+%%sphere edges
 xmnin = A_temp(1) - r_temp;
 xmax = A_temp(1) + r_temp;
 ymnin = A_temp(2) - r_temp;
