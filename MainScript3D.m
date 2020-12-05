@@ -2,9 +2,9 @@
 % Main file to interface with 3D RRT Star Algorithm
 tic;
 % Main Script
-clear all
-close all
-clc
+% clearvars -except k xstarDiffs xstarErrs rrtPathDists xstarDists elapsed_times
+% close all
+% clc
 
 % Set Graph Size
 xlim = 100;
@@ -103,4 +103,4 @@ xstarErr = ((xstarDist-trueOpt)/trueOpt)*100;
 fprintf('Length of RRT path: %f \nLength of xStar path: %f\n',rrtPathDist,xstarDist)
 fprintf('Percent difference of xstar vs RRT: %f\n',xstarDiff)
 fprintf('Percent error of xstar vs true optimal distance %f\n',xstarErr)
-toc;
+elapsed_time=toc;

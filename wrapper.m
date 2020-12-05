@@ -2,8 +2,8 @@
 clear all;
 clc;
 close all;
-for k = 1:100
-    clearvars -except k xstarDiffs xstarErrs rrtPathDists xstarDists elapsed_times
+for k = 1:20
+    clearvars -except k xstarDiffs xstarErrs rrtPathDists xstarDists elapsed_times numPoints
     close all;
 
     try
@@ -15,6 +15,7 @@ for k = 1:100
         rrtPathDists(k)=NaN;
         xstarDists(k)=NaN;
         elapsed_times(k)=NaN;
+        numPoints(k)=NaN;
         continue
     end
     xstarDiffs(k) = xstarDiff;
@@ -22,7 +23,8 @@ for k = 1:100
     rrtPathDists(k)=rrtPathDist;
     xstarDists(k)=xstarDist;
     elapsed_times(k)=elapsed_time;
+    numPoints(k)=length(xstar);
 end
 
 filename = 'statistics.mat';
-save(filename, 'xstarDiffs','xstarErrs','rrtPathDists','xstarDists','elapsed_times')
+save(filename, 'xstarDiffs','xstarErrs','rrtPathDists','xstarDists','elapsed_times','numPoints')
